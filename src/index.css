@@ -1,0 +1,71 @@
+/* BASIC */
+
+body {
+  margin: 0;
+  font-family: 'Karla';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #FFEFBA;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFFFFF, #FFEFBA);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFFFFF, #FFEFBA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100vh;
+}
+
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+/* TYPOGRAPHY */
+ h1 {
+  font-weight: 700;
+  font-size: 3.125em;
+  line-height: 37px;
+  color: #293264;
+ }
+
+ .start--btn {
+  font-family: 'Inter';
+  font-weight: 500;
+  font-size: 1.6em;
+  line-height: 19px;
+  color: #F5F7FB;
+
+ }
+
+/* START */
+
+.start--section{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.start--btn {
+  width: 193px;
+  height: 52px;
+  background: #4D5B9E;
+  border-radius: 15px;
+  border: none;
+  margin-top: 2em;
+  cursor: pointer;
+}
+
+.start--btn:hover, .start--btn:focus {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
