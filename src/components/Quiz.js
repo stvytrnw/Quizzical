@@ -1,18 +1,19 @@
 import React from "react";
+import he from "he"
 import {useState, useEffect} from "react"
 
 export default function Quiz(){
-    const [questions, setQuestions] = useState()
+    const [allQuestions, setAllQuestions] = useState()
 
     useEffect(() => {
         fetch("https://opentdb.com/api.php?amount=5")
             .then(res => res.json())
-            .then(data => setQuestions(data))
+            .then(data => setAllQuestions(data.results))
     }, [])
 
-    console.log(questions)
-
     return (
-        <h1>Hello World</h1>
+        <>
+             {allQuestions && <h1>{he.decode(allQuestions[0].question)}</h1>}
+        </>
     )
 }
