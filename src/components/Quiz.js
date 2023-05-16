@@ -1,5 +1,6 @@
 import React from "react";
 import he from "he"
+import { nanoid } from 'nanoid'
 import {useState, useEffect} from "react"
 
 export default function Quiz(){
@@ -24,19 +25,30 @@ export default function Quiz(){
                     [answersArray[currentIndex], answersArray[randomIndex]] = [answersArray[randomIndex], answersArray[currentIndex]];
                 }
 
-                return {...question, randomAnswers: answersArray}
+                return {...question, randomAnswers: answersArray, id: nanoid()}
             }))
         }
     }, [allQuestions])
+    
+    function setAnswer(e) {
+        console.log(e)
+        setQuestions(prevState => prevState.map(question => {
+            return question.id == e.target.name ?
+            {...question, selectedAnswer: e.target.innerHTML} :
+            {...question}
+        }))
+    }
 
     const questionsHtml = questions.map(question => {
         const buttons = question.randomAnswers.map(answer => {
             return (
-                <button>{answer}</button>
+                <>
+                    <button onClick={setAnswer} style={{backgroundColor: question.selectedAnswer == he.decode(answer) ? "#D6DBF5" : "#F5F7FB"}} name={question.id}>{he.decode(answer)}</button>
+                </>
             )
         })
         return (
-            <div>
+            <div key={nanoid()}>
                 <h2>{he.decode(question.question)}</h2>
                 {buttons}
             </div>
