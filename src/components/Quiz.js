@@ -14,12 +14,22 @@ export default function Quiz(){
 
     useEffect(() => {
         if(allQuestions){
-            const newArray = allQuestions.map(question => {
-                return {...question, randomAnswers: question.incorrect_answers.concat(question.correct_answer)}
-            })
-            console.log(newArray)
+            setQuestions(allQuestions.map(question => {
+                let answersArray = question.incorrect_answers.concat(question.correct_answer)
+                let currentIndex = answersArray.length, randomIndex;
+
+                while (currentIndex !== 0){
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+                    [answersArray[currentIndex], answersArray[randomIndex]] = [answersArray[randomIndex], answersArray[currentIndex]];
+                }
+
+                return {...question, randomAnswers: answersArray}
+            }))
         }
     }, [allQuestions])
+
+    console.log(questions)
 
     return (
         <>
