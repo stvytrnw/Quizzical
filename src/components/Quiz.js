@@ -43,12 +43,17 @@ export default function Quiz(){
         const buttons = question.randomAnswers.map(answer => {
             return (
                 <>
-                    <button onClick={setAnswer} style={{backgroundColor: question.selectedAnswer == he.decode(answer) ? "#D6DBF5" : "#F5F7FB"}} name={question.id}>{he.decode(answer)}</button>
+                    <button 
+                    onClick={setAnswer} 
+                    style={{backgroundColor: question.selectedAnswer == he.decode(answer) ? "#D6DBF5" : "transparent", 
+                    borderColor: question.selectedAnswer == he.decode(answer) ? "#D6DBF5" : "#293264"}} 
+                    name={question.id}>{he.decode(answer)}
+                    </button>
                 </>
             )
         })
         return (
-            <div key={nanoid()}>
+            <div key={nanoid()} className="quiz--questions_cnt">
                 <h2>{he.decode(question.question)}</h2>
                 {buttons}
             </div>
@@ -56,8 +61,8 @@ export default function Quiz(){
     })
 
     return (
-        <>
+        <div className="quiz--cnt">
             {allQuestions && questionsHtml}
-        </>
+        </div>
     )
 }

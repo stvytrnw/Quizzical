@@ -30,11 +30,19 @@ html {
 }
 
 /* TYPOGRAPHY */
- h1 {
+ h1, h2 {
   font-weight: 700;
+  color: #293264;
+ }
+
+ h1 {
   font-size: 3.125em;
   line-height: 37px;
-  color: #293264;
+ }
+
+ h2 {
+  font-size: 1.6em;
+  line-height: 19px;
  }
 
  .start--btn {
@@ -43,7 +51,14 @@ html {
   font-size: 1.6em;
   line-height: 19px;
   color: #F5F7FB;
+ }
 
+ .quiz--questions_cnt {
+  font-family: 'Inter';
+  font-weight: 500;
+  font-size: 1.024em;
+  line-height: 12px;
+  color: #293264;
  }
 
 /* START */
@@ -68,4 +83,23 @@ html {
 
 .start--btn:hover, .start--btn:focus {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+/* QUIZ */
+.quiz--cnt {
+  width: 100%;
+  padding-top: 4em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+
+}
+
+.quiz--questions_cnt > button {
+  border-radius: 7.94239px;
+  padding: 0.3em 0.5em;
+  box-shadow: none;
+  border: 1px solid black;
+  margin: 1.2em 1.2em 1.5em 0;
 }
