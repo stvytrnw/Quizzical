@@ -4,7 +4,7 @@ import {useState, useEffect} from "react"
 
 export default function Quiz(){
     const [allQuestions, setAllQuestions] = useState()
-    const [questions, setQuestions] = useState()
+    const [questions, setQuestions] = useState([])
 
     useEffect(() => {
         fetch("https://opentdb.com/api.php?amount=5")
@@ -29,11 +29,23 @@ export default function Quiz(){
         }
     }, [allQuestions])
 
-    console.log(questions)
+    const questionsHtml = questions.map(question => {
+        const buttons = question.randomAnswers.map(answer => {
+            return (
+                <button>{answer}</button>
+            )
+        })
+        return (
+            <div>
+                <h2>{he.decode(question.question)}</h2>
+                {buttons}
+            </div>
+        )
+    })
 
     return (
         <>
-             {allQuestions && <h1>{he.decode(allQuestions[0].question)}</h1>}
+            {allQuestions && questionsHtml}
         </>
     )
 }
