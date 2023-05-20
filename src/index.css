@@ -86,7 +86,7 @@ html {
 }
 
 /* QUIZ */
-.quiz--cnt {
+.quiz--questions_cnt {
   width: 100%;
   padding-top: 4em;
   display: flex;
@@ -96,10 +96,16 @@ html {
 
 }
 
-.quiz--questions_cnt > button {
+.quiz--questions_cnt > .quiz--btn_cnt > button {
   border-radius: 7.94239px;
   padding: 0.3em 0.5em;
   box-shadow: none;
   border: 1px solid black;
   margin: 1.2em 1.2em 1.5em 0;
+  cursor: pointer;
+}
+
+.quiz--btn_cnt {
+  display: flex;
+  justify-content: center;
 }

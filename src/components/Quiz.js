@@ -6,6 +6,7 @@ import {useState, useEffect} from "react"
 export default function Quiz(){
     const [allQuestions, setAllQuestions] = useState()
     const [questions, setQuestions] = useState([])
+    const [finishedGame, setFinishedGame] = useState(false)
 
     useEffect(() => {
         fetch("https://opentdb.com/api.php?amount=5")
@@ -31,9 +32,8 @@ export default function Quiz(){
     }, [allQuestions])
     
     function setAnswer(e) {
-        console.log(e)
         setQuestions(prevState => prevState.map(question => {
-            return question.id == e.target.name ?
+            return question.id === e.target.name ?
             {...question, selectedAnswer: e.target.innerHTML} :
             {...question}
         }))
@@ -41,28 +41,48 @@ export default function Quiz(){
 
     const questionsHtml = questions.map(question => {
         const buttons = question.randomAnswers.map(answer => {
+
+            function getBackgroundColor() {
+                if(finishedGame){
+                    if(he.decode(question.correct_answer) ===  he.decode(answer)){
+                        return "#94D7A2"
+                    }else if (question.selectedAnswer ===  he.decode(answer)) {
+                        return "#F8BCBC"
+                    }
+                } else {
+                    return question.selectedAnswer === he.decode(answer) ? "#D6DBF5" : "transparent"
+                }
+            }
+
             return (
-                <>
                     <button 
                     onClick={setAnswer} 
-                    style={{backgroundColor: question.selectedAnswer == he.decode(answer) ? "#D6DBF5" : "transparent", 
-                    borderColor: question.selectedAnswer == he.decode(answer) ? "#D6DBF5" : "#293264"}} 
+                    style={{backgroundColor: getBackgroundColor(),
+                    borderColor: question.selectedAnswer === he.decode(answer) ? "#D6DBF5" : "#293264",
+                    opacity: finishedGame && "50%"}} 
                     name={question.id}>{he.decode(answer)}
                     </button>
-                </>
             )
         })
         return (
             <div key={nanoid()} className="quiz--questions_cnt">
                 <h2>{he.decode(question.question)}</h2>
-                {buttons}
+                <div className="quiz--btn_cnt">
+                    {buttons}
+                </div>
             </div>
         )
     })
 
+    function checkQuestions() {
+        setFinishedGame(prevState => !prevState)
+        console.log(finishedGame)
+    }
+
     return (
-        <div className="quiz--cnt">
+        <div>
             {allQuestions && questionsHtml}
+            <button onClick={checkQuestions}>Check anwers</button>
         </div>
     )
 }
