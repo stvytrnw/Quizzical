@@ -2,7 +2,19 @@ import React from "react"
 
 export default function Start(props){
 
-    console.log(props)
+    const categoriesArray = ["Any Category", "General Knowledge", "Entertainment: Books", "Entertainment: Film", "Entertainment: Music", 
+    "Entertainment: Musicals and Theatres", "Entertainment: Television", "Entertainment: Video Games", "Entertainment: Board Games", "Science & Nature",
+    "Science: Computers", "Science: Mathematics", "Mythology", "Sports", "Geography", "History", "Politics", "Art", 
+    "Celebrities", "Animals", "Vehicles", "Entertainment: Comics", "Science: Gadgets", "Entertainment: Japanese Anime & Manga",
+    "Entertainment: Cartoon & Animations"]
+
+    const categoriesHTML = categoriesArray.map((category, index) => {
+        return (
+            <option value={index} onChange={() => props.setApiValues(prevState => {
+                return {...prevState, category: index}
+            })}>{category}</option>
+        )
+    })
 
     return (
         <section className="start--section">
@@ -11,7 +23,7 @@ export default function Start(props){
                 return {...prevState, count: prevState.count +1}
             }) } />
             <select>
-                <option></option>
+               {categoriesHTML}
             </select>
             <button className="start--btn" onClick={props.handleClick}>Start quiz</button>
         </section>

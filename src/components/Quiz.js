@@ -11,7 +11,7 @@ export default function Quiz(props){
     let score = 0
 
     useEffect(() => {
-        fetch(`https://opentdb.com/api.php?amount=${props.values.count}`)
+        fetch(`https://opentdb.com/api.php?amount=${props.values.count}${props.values.category !== 0 && `&category=${props.values.category}`}`)
             .then(res => res.json())
             .then(data => setAllQuestions(data.results))
     }, [fetchApi])
