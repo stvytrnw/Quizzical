@@ -42,9 +42,10 @@ export default function Quiz(){
     function setAnswer(e) {
         setQuestions(prevState => prevState.map(question => {
             return question.id === e.target.name ?
-            {...question, selectedAnswer: e.target.innerHTML} :
+            {...question, selectedAnswer: he.decode(e.target.innerHTML)} :
             {...question}
         }))
+        console.log(questions)
     }
 
     const questionsHtml = questions.map(question => {
