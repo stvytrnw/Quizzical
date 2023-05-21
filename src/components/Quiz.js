@@ -7,12 +7,14 @@ export default function Quiz(){
     const [allQuestions, setAllQuestions] = useState()
     const [questions, setQuestions] = useState([])
     const [finishedGame, setFinishedGame] = useState(false)
+    const [fetchApi, setFetchApi] = useState(false)
+    let score = 0
 
     useEffect(() => {
         fetch("https://opentdb.com/api.php?amount=5")
             .then(res => res.json())
             .then(data => setAllQuestions(data.results))
-    }, [])
+    }, [fetchApi])
 
     useEffect(() => {
         if(allQuestions){
@@ -30,6 +32,12 @@ export default function Quiz(){
             }))
         }
     }, [allQuestions])
+
+    useEffect(() => {
+        if(!finishedGame){
+            setFetchApi(prevState => !prevState)
+        } 
+    }, [finishedGame])
     
     function setAnswer(e) {
         setQuestions(prevState => prevState.map(question => {
@@ -41,6 +49,10 @@ export default function Quiz(){
 
     const questionsHtml = questions.map(question => {
         const buttons = question.randomAnswers.map(answer => {
+
+            if(he.decode(question.correct_answer) ===  he.decode(answer) && question.selectedAnswer ===  he.decode(answer)) {
+                score++
+            }
 
             function getBackgroundColor() {
                 if(finishedGame){
@@ -57,9 +69,10 @@ export default function Quiz(){
             return (
                     <button 
                     onClick={setAnswer} 
+                    disabled={finishedGame}
                     style={{backgroundColor: getBackgroundColor(),
                     borderColor: question.selectedAnswer === he.decode(answer) ? "#D6DBF5" : "#293264",
-                    opacity: finishedGame && "50%"}} 
+                    opacity: finishedGame && answer !== question.correct_answer ? "50%" : "100%"}} 
                     name={question.id}>{he.decode(answer)}
                     </button>
             )
@@ -74,15 +87,15 @@ export default function Quiz(){
         )
     })
 
-    function checkQuestions() {
+    function changeFinishedGame() {
         setFinishedGame(prevState => !prevState)
-        console.log(finishedGame)
     }
 
     return (
-        <div>
+        <div className="quiz--cnt">
             {allQuestions && questionsHtml}
-            <button onClick={checkQuestions}>Check anwers</button>
+            {finishedGame && <p className="quiz--score">You scored {score}/5 correct answers</p>}
+            <button className="quiz--finish_btn" onClick={changeFinishedGame}>{!finishedGame ? "Check Answers" : "Play Again"}</button>
         </div>
     )
 }
