@@ -25,17 +25,17 @@ export default function Start(props){
     return (
         <section className="start--section">
             <h1>Quizzical</h1>
-            <input type="number" min="1" max="50" placeholder="1" onChange={(event) => props.setApiValues(prevState => {
+            <input className="start--input" type="number" min="1" max="50" placeholder="1" onChange={(event) => props.setApiValues(prevState => {
                 let { value, min, max } = event.target;
                 value = Math.max(Number(min), Math.min(Number(max), Number(value)));
                 return {...prevState, count: value}
             }) } />
-            <select onChange={(event) => props.setApiValues(prevState => {
+            <select className="start--input" onChange={(event) => props.setApiValues(prevState => {
                 return {...prevState, category: event.target.value}
             }) } >
                {categoriesHTML}
             </select>
-            <select onChange={(event) => props.setApiValues(prevState => {
+            <select className="start--input" onChange={(event) => props.setApiValues(prevState => {
                 return {...prevState, difficulty: event.target.value}
             })}>
                 {difficultyHTML}
