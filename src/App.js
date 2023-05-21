@@ -7,7 +7,7 @@ import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 
 function App() {
   const [startQuiz, setStartQuiz] = useState(false)
-  const [apiValues, setApiValues] = useState({count: 1, category: 1, difficutly: ""})
+  const [apiValues, setApiValues] = useState({count: 1, category: '0', difficulty: '0'})
 
   function startGame() {
     setStartQuiz(prevState => !prevState)

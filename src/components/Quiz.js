@@ -11,7 +11,9 @@ export default function Quiz(props){
     let score = 0
 
     useEffect(() => {
-        fetch(`https://opentdb.com/api.php?amount=${props.values.count}${props.values.category !== 0 && `&category=${props.values.category}`}`)
+        fetch(`https://opentdb.com/api.php?amount=${props.values.count}
+        ${props.values.category !== '0' ? `&category=${props.values.category}` : ""}
+        ${props.values.difficulty === '0' ? "" : `&difficulty=${props.values.difficulty}`}`)
             .then(res => res.json())
             .then(data => setAllQuestions(data.results))
     }, [fetchApi])
@@ -69,6 +71,7 @@ export default function Quiz(props){
 
             return (
                     <button 
+                    key={nanoid()}
                     onClick={setAnswer} 
                     disabled={finishedGame}
                     style={{backgroundColor: getBackgroundColor(),
@@ -95,7 +98,7 @@ export default function Quiz(props){
     return (
         <div className="quiz--cnt">
             {allQuestions && questionsHtml}
-            {finishedGame && <p className="quiz--score">You scored {score}/5 correct answers</p>}
+            {finishedGame && <p className="quiz--score">You scored {score}/{allQuestions.length} correct answers</p>}
             <button className="quiz--finish_btn" onClick={changeFinishedGame}>{!finishedGame ? "Check Answers" : "Play Again"}</button>
         </div>
     )

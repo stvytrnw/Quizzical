@@ -8,22 +8,37 @@ export default function Start(props){
     "Celebrities", "Animals", "Vehicles", "Entertainment: Comics", "Science: Gadgets", "Entertainment: Japanese Anime & Manga",
     "Entertainment: Cartoon & Animations"]
 
+    const difficultyArray = ["Any Difficulty", "Easy", "Medium", "Hard"]
+
     const categoriesHTML = categoriesArray.map((category, index) => {
         return (
-            <option value={index} onChange={() => props.setApiValues(prevState => {
-                return {...prevState, category: index}
-            })}>{category}</option>
+            <option key={category} value={category === "Any Category" ? 0 : index+8}>{category}</option>
+        )
+    })
+
+    const difficultyHTML = difficultyArray.map(item => {
+        return (
+            <option key={item} value={item === "Any Difficulty" ? 0 : item}>{item}</option>
         )
     })
 
     return (
         <section className="start--section">
             <h1>Quizzical</h1>
-            <input type="number" min="1" max="50" value={props.items.count} onChange={() => props.setApiValues(prevState => {
-                return {...prevState, count: prevState.count +1}
+            <input type="number" min="1" max="50" placeholder="1" onChange={(event) => props.setApiValues(prevState => {
+                let { value, min, max } = event.target;
+                value = Math.max(Number(min), Math.min(Number(max), Number(value)));
+                return {...prevState, count: value}
             }) } />
-            <select>
+            <select onChange={(event) => props.setApiValues(prevState => {
+                return {...prevState, category: event.target.value}
+            }) } >
                {categoriesHTML}
+            </select>
+            <select onChange={(event) => props.setApiValues(prevState => {
+                return {...prevState, difficulty: event.target.value}
+            })}>
+                {difficultyHTML}
             </select>
             <button className="start--btn" onClick={props.handleClick}>Start quiz</button>
         </section>
