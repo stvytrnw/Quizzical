@@ -15,7 +15,7 @@ function App() {
 
   return (
     <main>
-      { !startQuiz && <Start handleClick={startGame} items={apiValues} changeValues={setApiValues} />}
+      { !startQuiz && <Start handleClick={startGame} items={apiValues} setApiValues={setApiValues} />}
       { startQuiz && <Quiz values={apiValues} />}
     </main>
   );
