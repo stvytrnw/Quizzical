@@ -3,7 +3,7 @@ import he from "he"
 import { nanoid } from 'nanoid'
 import {useState, useEffect} from "react"
 
-export default function Quiz(){
+export default function Quiz(props){
     const [allQuestions, setAllQuestions] = useState()
     const [questions, setQuestions] = useState([])
     const [finishedGame, setFinishedGame] = useState(false)
@@ -11,7 +11,7 @@ export default function Quiz(){
     let score = 0
 
     useEffect(() => {
-        fetch("https://opentdb.com/api.php?amount=5")
+        fetch(`https://opentdb.com/api.php?amount=${props.values.count}`)
             .then(res => res.json())
             .then(data => setAllQuestions(data.results))
     }, [fetchApi])
