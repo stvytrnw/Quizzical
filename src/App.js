@@ -12,8 +12,6 @@ function App() {
     setStartQuiz(prevState => !prevState)
   }
 
-  console.log(apiValues)
-
   return (
     <main>
       { !startQuiz && <Start handleClick={startGame} items={apiValues} setApiValues={setApiValues} />}

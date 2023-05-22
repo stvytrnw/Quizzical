@@ -4,40 +4,37 @@ import { nanoid } from 'nanoid'
 import {useState, useEffect} from "react"
 
 export default function Quiz(props){
-    const [allQuestions, setAllQuestions] = useState()
     const [questions, setQuestions] = useState([])
     const [finishedGame, setFinishedGame] = useState(false)
     const [fetchApi, setFetchApi] = useState(false)
     let score = 0
 
     useEffect(() => {
-        fetch(`https://opentdb.com/api.php?amount=${props.values.count}${props.values.category !== '0' ? `&category=${props.values.category}` : ""}${props.values.difficulty == '0' ? "" : `&difficulty=${props.values.difficulty.toLowerCase()}`}`)
-            .then(res => res.json())
-            .then(data => setAllQuestions(data.results))
+        fetchData();
     }, [fetchApi])
 
     useEffect(() => {
-        if(allQuestions){
-            setQuestions(allQuestions.map(question => {
-                let answersArray = question.incorrect_answers.concat(question.correct_answer)
-                let currentIndex = answersArray.length, randomIndex;
-
-                while (currentIndex !== 0){
-                    randomIndex = Math.floor(Math.random() * currentIndex);
-                    currentIndex--;
-                    [answersArray[currentIndex], answersArray[randomIndex]] = [answersArray[randomIndex], answersArray[currentIndex]];
-                }
-
-                return {...question, randomAnswers: answersArray, id: nanoid()}
-            }))
-        }
-    }, [allQuestions])
-
-    useEffect(() => {
         if(!finishedGame){
-            setFetchApi(prevState => !prevState)
+            setFetchApi(prevState => !prevState);
         } 
     }, [finishedGame])
+
+    async function fetchData() {
+        const response = await fetch(`https://opentdb.com/api.php?amount=${props.values.count}${props.values.category !== '0' ? `&category=${props.values.category}` : ""}${props.values.difficulty == '0' ? "" : `&difficulty=${props.values.difficulty.toLowerCase()}`}`)
+        const data = await response.json();
+        setQuestions(data.results.map(question => {
+            let answersArray = question.incorrect_answers.concat(question.correct_answer)
+            let currentIndex = answersArray.length, randomIndex;
+
+            while (currentIndex !== 0){
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [answersArray[currentIndex], answersArray[randomIndex]] = [answersArray[randomIndex], answersArray[currentIndex]];
+            }
+
+            return {...question, randomAnswers: answersArray, id: nanoid()}
+        }))
+    }
     
     function setAnswer(e) {
         setQuestions(prevState => prevState.map(question => {
@@ -45,7 +42,6 @@ export default function Quiz(props){
             {...question, selectedAnswer: he.decode(e.target.innerHTML)} :
             {...question}
         }))
-        console.log(questions)
     }
 
     const questionsHtml = questions.map(question => {
@@ -95,8 +91,8 @@ export default function Quiz(props){
 
     return (
         <div className="quiz--cnt">
-            {allQuestions && questionsHtml}
-            {finishedGame && <p className="quiz--score">You scored {score}/{allQuestions.length} correct answers</p>}
+            {questions && questionsHtml}
+            {finishedGame && <p className="quiz--score">You scored {score}/{questions.length} correct answers</p>}
             <button className="quiz--finish_btn" onClick={changeFinishedGame}>{!finishedGame ? "Check Answers" : "Play Again"}</button>
         </div>
     )
