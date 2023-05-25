@@ -20,7 +20,12 @@ export default function Quiz(props){
     }, [finishedGame])
 
     async function fetchData() {
-        const response = await fetch(`https://opentdb.com/api.php?amount=${props.values.count}${props.values.category !== '0' ? `&category=${props.values.category}` : ""}${props.values.difficulty == '0' ? "" : `&difficulty=${props.values.difficulty.toLowerCase()}`}`)
+        const url = new URL('https://opentdb.com/api.php')
+        url.searchParams.set('amount', props.values.count)
+        props.values.category !== '0' && url.searchParams.set('category', props.values.category)
+        props.values.difficulty !== '0' && url.searchParams.set('difficulty', props.values.difficulty.toLowerCase())
+
+        const response = await fetch(url)
         const data = await response.json();
         setQuestions(data.results.map(question => {
             let answersArray = question.incorrect_answers.concat(question.correct_answer)
